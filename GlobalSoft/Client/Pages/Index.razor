@@ -1,6 +1,7 @@
 ﻿@page "/"
+@using GlobalSoft.Shared;
 @inject NavigationManager Navigation
-@inject HttpClient hpttClient
+@inject HttpClient httpClient
 @inject IJSRuntime JSRuntime
 
 
@@ -1586,6 +1587,10 @@
 </a>
 
 @code{
+    protected override async Task OnInitializedAsync()
+    {        
+        var users = await httpClient.GetFromJsonAsync<List<UserInfo>>("api/User/Get");
+    }
     private void GoToHome()
     {
         Navigation.NavigateTo("/");

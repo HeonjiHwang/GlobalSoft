@@ -1,9 +1,5 @@
-using GlobalSoft.Server.Data;
 using GlobalSoft.Server.DataAccess;
-using GlobalSoft.Server.Models;
 using GlobalSoft.Shared;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,28 +9,16 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 builder.Services.AddDbContext<DomainModelPostgreSqlContext>(options =>
     options.UseNpgsql(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+builder.Services.AddScoped<IDataAccessProvider, DataAccessPostgreSqlProvider>();
 
-/*
-builder.Services.AddDefaultIdentity<UserInfoModel>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddEntityFrameworkStores<DomainModelPostgreSqlContext>();
-
-builder.Services.AddIdentityServer()
-    .AddApiAuthorization<UserInfoModel, DomainModelPostgreSqlContext>();
-
-builder.Services.AddAuthentication()
-    .AddIdentityServerJwt();
-*/
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
-
-builder.Services.AddScoped<IDataAccessProvider, DataAccessPostgreSqlProvider>();
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseMigrationsEndPoint();
     app.UseWebAssemblyDebugging();
 }
 else
@@ -50,12 +34,6 @@ app.UseBlazorFrameworkFiles();
 app.UseStaticFiles();
 
 app.UseRouting();
-
-/*
-app.UseIdentityServer();
-app.UseAuthentication();
-app.UseAuthorization();
-*/
 
 app.MapRazorPages();
 app.MapControllers();

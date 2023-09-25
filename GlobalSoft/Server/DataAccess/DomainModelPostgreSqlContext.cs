@@ -1,7 +1,5 @@
-﻿using GlobalSoft.Server.Data;
-using GlobalSoft.Server.Models;
+﻿
 using GlobalSoft.Shared;
-using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.EntityFrameworkCore;
 
 namespace GlobalSoft.Server.DataAccess
